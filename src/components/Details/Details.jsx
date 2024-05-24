@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import './Details.css';
 
 export default function Details() {
-  const [count, setCount] = useState(1); 
-  const [order, setOrder] = useState([]);
-
-  useEffect(() => {
-    const storedOrder = localStorage.getItem('order');
-    if (storedOrder) {
-      setOrder(JSON.parse(storedOrder));
-    }
-  }, []);
+  const order = useSelector(state => state.order);
+  const dispatch = useDispatch();
 
   if (!order || order.length === 0) {
     return <p>Không có món ăn nào được đặt</p>;
   }
 
-  const selectedItem = order[0];
-
-  const handleIncrease = () => {
-    setCount(count + 1);
+  const handleIncrease = (id) => {
+    dispatch({ type: 'INCREASE_QUANTITY', payload: id });
   };
 
-  const handleDecrease = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
+  const handleDecrease = (id) => {
+    dispatch({ type: 'DECREASE_QUANTITY', payload: id });
   };
 
-  const handleDelete = () => {
-    setOrder([]);
-    localStorage.removeItem('order');
+  const handleDelete = (id) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: id });
   };
 
   const calculateTotal = (price, quantity) => {
@@ -39,13 +29,16 @@ export default function Details() {
     return total.toLocaleString('vi-VN') + ' VND';
   };
 
-  const handleOrder = () => {
-    alert('Đặt món thành công');
+  const calculateGrandTotal = () => {
+    return order.reduce((acc, item) => {
+      const priceNumber = parseFloat(item.price.replace(/,/g, '').replace(' VND', ''));
+      return acc + priceNumber * item.quantity;
+    }, 0).toLocaleString('vi-VN') + ' VND';
   };
 
   return (
     <>
-      <h1>Chi tiết món ăn</h1>
+      <h1>Đơn hàng</h1>
       <div className='details'>
         <table>
           <thead>
@@ -59,23 +52,27 @@ export default function Details() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><img src={selectedItem.image} alt={selectedItem.name} style={{ width: '150px', height: '150px' }}/></td>
-              <td>{selectedItem.name}</td>
-              <td>{selectedItem.price}</td>
-              <td>
-                <button onClick={handleIncrease}>+</button>
-                <span>{count}</span>
-                <button onClick={handleDecrease}>-</button>
-              </td>
-              <td>{calculateTotal(selectedItem.price, count)}</td>
-              <td>
-                <button onClick={handleOrder}>Đặt cơm</button>    
-                <button onClick={handleDelete}>Xoá</button>
-              </td>
-            </tr>
+            {order.map(item => (
+              <tr key={item.id}>
+                <td data-label="Hình Ảnh"><img src={item.image} alt={item.name} style={{ width: '150px', height: '150px' }}/></td>
+                <td data-label="Tên Sản Phẩm">{item.name}</td>
+                <td data-label="Giá">{item.price}</td>
+                <td data-label="Số Lượng">
+                  <button onClick={() => handleDecrease(item.id)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => handleIncrease(item.id)}>+</button>
+                </td>
+                <td data-label="Thành Tiền">{calculateTotal(item.price, item.quantity)}</td>
+                <td data-label="Hành Động">
+                  <button onClick={() => handleDelete(item.id)}>Xoá</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <div className='grand-total'>
+          <h2>Tổng tiền: {calculateGrandTotal()}</h2>
+        </div>
       </div>
     </>
   );

@@ -1,0 +1,2 @@
+            <p>Price: {food.price}</p>
+            <p>Review: {food.review}</p>
