@@ -10,6 +10,7 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
 }
 
 table {
@@ -109,4 +110,20 @@ span, td {
     width: 100px;
     height: 100px;
   }
+}
+.grand-total{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.grand-total button {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  width: 200px;
+  height: 50px;
 }

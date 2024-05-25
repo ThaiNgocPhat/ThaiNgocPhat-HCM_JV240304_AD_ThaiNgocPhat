@@ -72,6 +72,7 @@ export default function Details() {
         </table>
         <div className='grand-total'>
           <h2>Tổng tiền: {calculateGrandTotal()}</h2>
+          <button>Thanh Toán</button>
         </div>
       </div>
     </>
