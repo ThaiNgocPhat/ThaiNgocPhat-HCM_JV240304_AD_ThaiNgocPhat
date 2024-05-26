@@ -24,7 +24,7 @@ export default function VietFood() {
     }
     localStorage.setItem('order', JSON.stringify(order));
     alert('Đặt món thành công');
-    window.location.href = '/details';
+    window.location.href = '/Cart';
   }
   return (
     <>

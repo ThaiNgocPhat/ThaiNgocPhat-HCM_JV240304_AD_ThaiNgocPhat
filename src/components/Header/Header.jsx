@@ -18,7 +18,7 @@ export default function Header() {
         <Link to='/login'>
           <FontAwesomeIcon icon={faUser} />
         </Link>
-        <Link to='/details'>
+        <Link to='/Cart'>
           <FontAwesomeIcon icon={faCartShopping} />
         </Link>
       </div>

@@ -4,7 +4,6 @@ import Header from './components/Header/Header';
 import Navigation from './components/Navigation/Navigation';
 import Footer from './components/Footer/Footer';
 import Index from './routes/index.jsx';
-import Details from './components/Details/Details.jsx'
 
 export default function App() {
   return (
@@ -12,7 +11,6 @@ export default function App() {
     <div id='container'>
       <Header />
       <Navigation />
-      <Details/>
       <Index/>
       <Footer />
     </div>
