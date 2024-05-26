@@ -35,7 +35,20 @@ export default function Details() {
       return acc + priceNumber * item.quantity;
     }, 0).toLocaleString('vi-VN') + ' VND';
   };
-
+  const handlePayment = () => {
+    const existingPayments = JSON.parse(localStorage.getItem('payment')) || [];
+    const currentOrder = JSON.parse(localStorage.getItem('order'));
+    if (!currentOrder) {
+      alert('No order found');
+      return;
+    }
+    existingPayments.push(currentOrder);
+    localStorage.setItem('payment', JSON.stringify(existingPayments));
+    dispatch({ type: 'REMOVE_ALL_FROM_CART' });
+    window.location.href = '/';
+    alert('Thanh toán thành công');
+  };
+  
   return (
     <>
       <h1>Đơn hàng</h1>
@@ -72,7 +85,7 @@ export default function Details() {
         </table>
         <div className='grand-total'>
           <h2>Tổng tiền: {calculateGrandTotal()}</h2>
-          <button>Thanh Toán</button>
+          <button onClick={handlePayment}>Thanh Toán</button>
         </div>
       </div>
     </>

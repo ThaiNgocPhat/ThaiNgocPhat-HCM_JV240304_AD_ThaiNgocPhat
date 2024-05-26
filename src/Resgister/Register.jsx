@@ -11,10 +11,28 @@ export default function Register() {
     phoneNumber: ''
   })
   const [errors, setErrors] = React.useState({})
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    e.target.reset();
-  }
+ const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+        email: e.target.email.value,
+    };
+    const userFood = JSON.parse(localStorage.getItem('userFood')) || [];
+    const userExists = userFood.some(user => user.email === formData.email);
+
+    if (userExists) {
+        setErrors({
+            ...errors,
+            email: 'Email is already registered'
+        });
+    } else {
+        userFood.push(formData);
+        localStorage.setItem('userFood', JSON.stringify(userFood));
+        e.target.reset();
+        setErrors({});
+        alert('Đăng ký thành công');
+        window.location.href = '/login';
+    }
+};
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({

@@ -1,2 +1,6 @@
-            <p>Price: {food.price}</p>
-            <p>Review: {food.review}</p>
+ //   if(localStorage.getItem('token') === null){
+  //     window.location.href = '/';
+  //     return;
+  // }else{
+  //     window.location.href = '/login';
+  // }

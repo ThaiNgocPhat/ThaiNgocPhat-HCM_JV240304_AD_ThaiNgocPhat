@@ -2,7 +2,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import localStorageMiddleware from './localStorageMiddleware';
 
-// Khởi tạo trạng thái ban đầu
 const initialState = {
   order: JSON.parse(localStorage.getItem('order')) || []
 };
@@ -44,12 +43,16 @@ function orderReducer(state = initialState, action) {
         ...state,
         order: state.order.filter(item => item.id !== action.payload)
       };
+    case 'REMOVE_ALL_FROM_CART':
+      return {
+        ...state,
+        order: []
+      };
     default:
-      return state;
+      return state;  
   }
 }
 
-// Tạo store
 const store = createStore(orderReducer, applyMiddleware(localStorageMiddleware));
 
 export default store;
